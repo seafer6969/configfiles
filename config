@@ -1,0 +1,492 @@
+##################################
+#  ____________________________
+# (   _________________________)
+#  ) (__  _  _  _    _
+# (   __)( \/ )( \/\/ )/\/\
+#  ) (    \  /  \    //    \
+# (___)    \/    \/\/(_/\/\_)
+#
+#
+#the seafer fvwm2rc
+#this fvwm2rc is dedicated to nightslayer420 and ishismemehut
+#who wanted something to rip components out of but couldn't find
+#anything to their liking.
+
+#env variables
+#these are little keywords I can use to reference files and programs
+SetEnv fvwm_wallpapers /home/jack/Pictures/papes/
+SetEnv fvwm_term /usr/bin/urxvt
+SetEnv fvwm_video_player /usr/bin/vlc
+SetEnv fvwm_icon /usr/share/icons/GNUstep/
+SetEnv fvwm_home /home/jack/
+SetEnv fvwm_sounds /home/jack/Music/sounds/
+#where to look for icons and images
+ImagePath $[fvwm_icon]:$[fvwm_icon];.png:$[fvwm_wallpapers]:+
+
+#desks and pages
+#in fvwm, pages are akin to workspaces, and desks are like meta-workspaces
+#because this is too complex for my use case, I limit myself to 1 desk and
+#9 pages, basically giving myself a simple 9 workspace setup
+#the desktopname WILL be visible on the FvwmPager, so give it a tolerable
+#name, you'll be looking at it almost constantly.
+DesktopSize 3x3
+DesktopName 0 OMG!!! FVWM2!!!
+#these parameters control the ability to switch between pages by dragging
+#your cursor to the edge of the screen. I find this feature annoying so my
+#parameters here effectively disable it
+EdgeScroll 0 0
+EdgeThickness 0
+
+#mouse and focus settings
+#number of ms to hold down the mouse button to be considered "holding down
+#the mouse button"
+ClickTime 350
+#number of pixels the cursor must move before it's considered "moving"
+#(isn't this precise customization?)
+MoveThreshold 3
+#this style argument tells fvwm to give focus to windows i click on, and raise them
+#to the top of the screen. the last one in particular specifies clicking on a window
+#"icon" which is the minimized manifestation of a window.
+Style * SloppyFocus, FPClickRaisesFocused, FPClickDecorRaisesFocused, FPClickIconRaisesFocused
+
+#window styling and appearance
+# 0 - Fallback
+# 1 - Inactive Window
+# 2 - Active Window
+# 3 - Inactive Window Border
+# 4 - Active Window Border
+# 5 - Menu/Inactive Item
+# 6 - Menu/Active Item
+# 7 - Menu/Grayed Item
+# 8 - Menu/Title
+Colorset 0 fg #fefae0, bg #21316c
+Colorset 1 fg #0c0c0c, bg #0589c9
+Colorset 2 fg #fefae0, bg #21316c
+Colorset 3 fg #a6a8ab, bg #0589c9, hi #676767, sh #303030
+Colorset 4 fg #0c0c0c, bg #21316c, hi #474747, sh #101010
+Colorset 5 fg #0c0c0c, bg #018840
+Colorset 6 fg #fefae0, bg #115036
+Colorset 7 fg #a6a8ab, bg #018840
+Colorset 8 fg #018840, bg #115036
+#setting padding for maximized windows so they dont cover important elements
+EwmhBaseStruts 140 1 1 1
+#ignoring the numlock modifier (its annoying)
+IgnoreModifiers L25
+#placing new windows in empty space, or falling back to a cascading fashion of placement
+#disallowing new windows to grab focus
+Style * TileCascadePlacement, GrabFocusOff
+#ignore the program specified start position for new windows (usually really autistic)
+#shows resizing of windows as it happens instead of using an outline
+Style * NoUsePPosition, ResizeOpaque
+#max size a window should be moved without being made into an outline (for weak machines)
+OpaqueMoveSize -1
+#always display the cute litte window in the top left that tells you your current 
+#window geometry
+HideGeometryWindow Never
+#lets windows stick together when moved or resized within x pixels of each other.
+#only windows for me, and also for the edges of the screen.
+SnapAttraction 3 Windows Screen
+#give transient windows basic things like title bars, and defines some sane behaviors for them
+Style * DecorateTransient, DontRaiseTransient, DontLowerTransient, StackTransientParent, GrabFocusTransientOff
+#removes the minimized "icon" versions of windows (annoying)
+Style * NoIcon
+#window decorations
+DestroyDecor winDecor
+AddToDecor winDecor
+#a titlebar with no buttons, a left justified title, at 20 pixels in height
++ TitleStyle LeftJustified Height 20
++ BorderStyle Active Raised
++ BorderStyle Inactive Flat
+#window style commands
+Style "*" UseDecor winDecor
+Style "*" Font "xft:SF Pro Display:style=Heavy Italic:size=10:minspace=False:antialias=True"
+Style "*" BorderWidth 4
+#handles are that pair of lines that appear as the outline of the corner of the
+#window border. i think they're ugly and this argument removes them
+Style "*" !Handles
+Style "*" Colorset 2
+Style "*" HilightColorset 1
+Style "*" BorderColorset 4
+Style "*" HilightBorderColorset 3
+#disables that weird sunken effect on the borders
+Style "*" FirmBorder, FvwmBorder
+
+#functions
+#the autostart function, basically tells fvwm what it should do when it starts. for me its:
+#>the pager
+#>the icon manager
+#>my system tray
+#>a startup sound (cute!)
+#>my wallpaper (set with feh instead of fvwm-root)
+#>sourcing my .Xresources
+#>turning on my compositor
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Module FvwmPager *
++ I Module FvwmIconMan
++ I Module FvwmButtons sysTray
++ I Exec exec cvlc $[fvwm_sounds]startup.ogg
++ I Exec exec ~/.fehbg &
++ I Exec exec xrdb .Xresources
++ I Exec exec picom
+#to be honest i dont know the difference between InitFunction and StartFunction, things i want
+#to happen when fvwm starts don't happen correctly (or at all) when i add them to InitFunction,
+#but they do happen correctly when added to StartFunction. someone smarter than me can solve
+#this conundrum, but i have InitFunction here anyway as a holdover.
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Nop
+#restart function that does nothing special
+DestroyFunc RestartFunction
+AddToFunc RestartFunction
++ I Nop
+#functions to take screenshots using imagemagick
+#entire screen
+DestroyFunc rootScreenshot
+AddToFunc rootScreenshot
++ I Exec import -window root -quality 100 -silent \
+	"$[fvwm_home]/Pictures/scrot/scrot-`date +%F[%R]`.jpg"
+#selected area
+DestroyFunc dragScreenshot
+AddToFunc dragScreenshot
++ I Exec import -quality 100 -silent \
+	"$[fvwm_home]/Pictures/scrot/scrot-`date +%F[%R]`.jpg"
+#current window
+DestroyFunc windowScreenshot
+AddToFunc windowScreenshot
++ I ThisWindow (!Shaded !Iconic Iconifiable) \
+	Exec import -window $[w.id] -quality 100 -silent \
+		"$[fvwm_home]/Pictures/scrot/scrot-`date +%F[%R]`-$[w.id].jpg"
+#function to make an invasion of bugs!
+DestroyFunc screenBugs
+AddToFunc screenBugs
++ I Exec exec xroach -roaches 20 -rc Brown -speed 0.2
++ I Exec exec xroach -roaches 10 -rc Black -speed 0.4
+#function for when the bugs aren't fun anymore
+DestroyFunc squashBugs
+AddToFunc sqaushBugs
++ I Exec killall xroach
+
+#bindings
+#mouse bindings for window management. very important because this configuration neglects
+#putting buttons on the title bar :^)
+Mouse 1 T A Move
+Mouse 3 T A Iconify
+Mouse 2 T N Delete
+Mouse 2 T S Destroy
+Mouse 4 T A Maximize True
+Mouse 5 T A Maximize False
+Mouse 1 S A Resize
+Mouse 1 F A Resize
+Mouse 1 I A Iconify
+#key binding for creating the "alt-tab" window switching feature with a list (we
+#will theme the list later)
+Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+#bindings for my screenshot functions
+Key Print A N rootScreenshot
+Key Print A S windowScreenshot
+Key Print A C dragScreenshot
+#keybindings to open various useful programs on the fly
+#terminal
+Key T A M $[fvwm_term]
+#open context menus for the root window
+Mouse 1 R A Menu MainMenu
+Mouse 3 R A Menu WindowMenu
+
+#all about menus
+# Main menu colorset
+# 10 - Menu title
+# 11 - Normal item
+# 12 - Highlighted item
+# 13 - Unavailable item
+# 14 - Unavailable item (reverse bg)
+Colorset 10 fg #018840, bg #115036
+Colorset 11 fg #115036, bg #018840
+Colorset 12 fg #018840, bg #115036
+Colorset 13 fg #a6a8ab, bg #018840
+Colorset 14 fg #a6a8ab, bg #115036
+MenuStyle "MainMenu"	MenuColorset 11
+MenuStyle "MainMenu"	ActiveColorset 12
+MenuStyle "MainMenu"	TitleColorset 10
+MenuStyle "MainMenu"	GreyedColorset 13
+#subMenu style colors
+MenuStyle "subMenu"	MenuColorset 12
+MenuStyle "subMenu"	ActiveColorset 11
+MenuStyle "subMenu"	GreyedColorset 14
+# Window ops colorset
+# 20 - Menu title
+# 21 - Normal item
+# 22 - Highlighted item
+# 23 - Unavailable item
+# 24 - Unavailable item (reverse bg)
+Colorset 20 fg #0589c9, bg #21316c
+Colorset 21 fg #21316c, bg #0589c9
+Colorset 22 fg #0589c9, bg #21316c
+Colorset 23 fg #a6a8ab, bg #0589c9
+Colorset 24 fg #a6a8ab, bg #21316c
+MenuStyle "WindowMenu"	MenuColorset 21
+MenuStyle "WindowMenu"	ActiveColorset 22
+MenuStyle "WindowMenu"	TitleColorset 20
+MenuStyle "WindowMenu"	GreyedColorset 23
+#sendMenu colors (inverse of the WindowMenu just for funsies)
+MenuStyle "sendMenu"	MenuColorset 22
+MenuStyle "sendMenu"	ActiveColorset 21
+MenuStyle "sendMenu"	GreyedColorset 24
+#WindowList colors chosen by yuria (the menu from the alt tab function in bindings)
+# 60 - Menu title
+# 61 - Menu item
+# 62 - Selected menu item
+Colorset 60 fg #c41616, bg #efcf40
+Colorset 61 fg #efcf40, bg #c41616
+Colorset 62 fg #c41616, bg #efcf40
+MenuStyle "WindowList"	MenuColorset 61
+MenuStyle "WindowList"	TitleColorset 60
+MenuStyle "WindowList"	ActiveColorset 62
+#menu parameters... because I wanted each menu to have it's own colorscheme, each menu must
+#also have it's own MenuStyle. Because each menu has it's own MenuStyle, I have to duplicate
+#these commands for each MenuStyle. Fun!
+#menus font and menus title font
+MenuStyle "MainMenu" 	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "WindowMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "sendMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "WindowList"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "subMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "MainMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
+MenuStyle "WindowMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
+MenuStyle "WindowList"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
+#forces the cursor to hover over the item for a while before it popped up
+MenuStyle "MainMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle "WindowMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
+#determines where submenus appear relative to menu items
+MenuStyle "MainMenu"	PopupOffset -5 100, TitleWarpOff
+MenuStyle "WindowMenu"	PopupOffset -5 100, TitleWarpOff
+#changes the appearance of the title bar, item separators, and triangles
+MenuStyle "MainMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
+MenuStyle "WindowMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
+MenuStyle "sendMenu"	TitleUnderlines2, SeparatorsLong, BorderWidth 2
+MenuStyle "WindowList"	TitleUnderlines2, SeparatorsLong, BorderWidth 2
+MenuStyle "subMenu"	SeparatorsLong, BorderWidth 2
+#hold menus open when submenus open to prevent navigating to 4 submenus only to have the whole
+#structure close on you because you moved your mouse 2 pixels too far over
+MenuStyle "MainMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
+MenuStyle "WindowMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
+#determines the structure of each part of a menu item from the title, icon, etc.
+#my structure basically removes everything except for text.
+MenuStyle "MainMenu"	ItemFormat "%|%l%p%>%|"
+MenuStyle "WindowMenu"	ItemFormat "%|%l%p%>%|"
+MenuStyle "sendMenu"	ItemFormat "%|%l%p%>%|"
+MenuStyle "WindowList"	ItemFormat "%|%l%p%>%|"
+MenuStyle "subMenu"	ItemFormat "%|%l%p%>%|"
+#sets the width between items and titles in the menus
+MenuStyle "MainMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+MenuStyle "WindowMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+MenuStyle "sendMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+MenuStyle "WindowList"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+#makes the selected menu item and menu title have hilighting instead of 3d impression
+MenuStyle "MainMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "WindowMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "sendMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "WindowList"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+#primary menu containing all submenus for quick access to common programs
+#as well as the ability to restart or exit fvwm
+DestroyMenu MainMenu
+AddToMenu MainMenu "FVWM2" Title
+ChangeMenuStyle MainMenu MainMenu
++ "Utilities"	Popup utilMenu
++ "Internet"	Popup webMenu
++ "Media"	Popup mediaMenu
++ "Games"	Popup gamesMenu
++ "" 		Nop
++ "Flip FVWM" 	Restart
++ "Exit FVWM" 	Quit
+#submenu containing internet reliant programs
+DestroyMenu webMenu
+AddToMenu webMenu
+ChangeMenuStyle subMenu webMenu
++ "Firefox"	Exec exec firefox
++ "Discord"	Exec exec discord
++ "Signal"	Exec exec signal-desktop
++ "qBittorrent"	Exec exec qbittorrent
+#submenu containing multimedia focused software, and a pulseaudio volume mixer
+DestroyMenu mediaMenu
+AddToMenu mediaMenu
+ChangeMenuStyle subMenu mediaMenu
++ "Video Player"		Exec exec $[fvwm_video_player]
++ "Open Broadcaster Studio"	Exec exec obs
++ "The G.I.M.P"			Exec exec gimp
++ "Volume Mixer"		Exec exec pavucontrol
+#submenu containing the holy trinity of basic system utilities
+DestroyMenu utilMenu
+AddToMenu utilMenu
+ChangeMenuStyle subMenu utilMenu
++ "Terminal"		Exec exec $[fvwm_term]
++ "Calculator"		Exec exec xcalc
++ "File Manager"	Exec exec pcmanfm
+#submenu containing software related to (((gaming)))
+DestroyMenu gamesMenu
+AddToMenu gamesMenu
+ChangeMenuStyle subMenu gamesMenu
++ "Chess"		Exec exec gnuchess &
++ "Steam"		Exec exec steam
++ "Lutris"		Exec exec lutris
++ "Xonotic"	 	Exec exec xonotic-sdl
++ "Minecraft"		Exec exec minecraft-launcher &
+#window options menu with an exhaustive list of options, similar to the
+#one found in the default configuration
+DestroyMenu WindowMenu
+AddToMenu WindowMenu "Window Ops" Title
+ChangeMenuStyle WindowMenu WindowMenu
++ "Move"		Move
++ "Resize"		Resize
++ "/De/Iconify"		Iconify
++ "/Un/Maximize"	Maximize
++ "/Un/Shade"		WindowShade
++ "/Un/Stick"		Stick
++ "/No/Titlebar"	Pick (CirculateHit) ToggleTitle
++ "Deliver"		Popup sendMenu
++ ""			Nop
++ "Close"		Close
++ "Destroy"		Destroy
++ ""			Nop
++ "Raise"		Raise
++ "Lower"		Lower
++ ""			Nop
++ "StaysOnTop"		Pick (CirculateHit) Layer 0 6
++ "StausPut"		Pick (CirculateHit) Layer 0 4
++ "StaysOnBottom"	Pick (CirculateHit) Layer 0 2
++ ""			Nop
++ "Identify"		Module FvwmIdent
+#submenu for the window operations menu, gives the ability to move windows
+#to certain "pages"
+DestroyMenu sendMenu
+AddToMenu sendMenu
+ChangeMenuStyle sendMenu sendMenu
++ "Space 1"		MoveToPage 0 0
+MenuStyle * ActiveFore, Hilight3DOff
+
++ "Space 2"		MoveToPage 1 0
++ "Space 3"		MoveToPage 2 0
++ "Space 4"		MoveToPage 0 1
++ "Space 5"		MoveToPage 1 1
++ "Space 6"		MoveToPage 2 1
++ "Space 7"		MoveToPage 0 2
++ "Space 8"		MoveToPage 1 2
++ "Space 9"		MoveToPage 2 2
+
+#fvwmpager configuration
+#colorsets
+# 30 - Layout colorset
+# 31 - Active window colorset
+# 32 - Window colorset
+# 33 - Hover label colorset
+Colorset 30 fg #0c0c0c, bg #411b59
+Colorset 31 fg #018840, bg #21316c
+Colorset 32 fg #de1b6c, bg #411b59
+Colorset 33 fg #de1b6c, bg #411b59
+#a sane list of default options for an always open tool: removes the ability to
+#iconify it, removes it from the window list, removes the ability to move it
+#around, makes it a constant between all workspaces, etc, etc. all of these
+#options can be reviews in the fvwm manual under the section for the "Style"
+#command, which has more arguments than any other command in fvwm.
+Style "FvwmPager"	NoTitle, !Handles, Sticky, WindowListSkip, \
+	CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+DestroyModuleConfig FvwmPager *
+*FvwmPager: Geometry 125x125+2+2
+*FvwmPager: Colorset * 30
+*FvwmPager: HilightColorset * 31
+#"balloons" are little boxes of text that display a windows name when you hover
+#the cursor over it inside the pager
+*FvwmPager: BalloonColorset * 33
+*FvwmPager: WindowColorsets 30 31
+*FvwmPager: Font "xft:SF Pro Display:style=Bold:size=10:minspace=True:antialias=True"
+*FvwmPager: Balloons All
+*FvwmPager: BalloonFont "xft:SF Pro Display:style=Light Italic:size=8:minspace=True:antialias=True"
+*FvwmPager: MiniIcons
+*FvwmPager: UseSkipList
+
+#clock and system tray using FvwmButtons
+#colorsets
+# 40 - monocolor
+# 41 - twotone
+Colorset 40 fg #c41616, bg #c41616
+Colorset 41 fg #efcf40, bg #c41616
+#identical list of options to the FvwmPager, as i want it to have all the same
+#properties, being a constant toolbar for the environment
+Style "sysTray"		NoTitle, !Handles, Sticky, WindowListSkip, \
+	CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+DestroyModuleConfig sysTray: *
+*sysTray: Geometry 125x150+2-2
+*sysTray: Colorset 40
+#rows and columns are not what you think. all FvwmButtons panels are fractionally
+#divided into rows and columns that you should think of like those on a sheet of
+#graphing paper. as you can see with the geometry line above, the panel here is
+#125 pixels wide, and 150 tall. therefore i have given the panel 6 rows and 5
+#columns of squares, which are each 25x25 pixels in size. 
+*sysTray: Rows 6
+*sysTray: Columns 5
+*sysTray: Frame 0
+*sysTray: Font "xft:SF Pro Display:style=Light Italic:size=8:minspace=True:antialias=True"
+#here, the first object in the panel is an instance of stalonetray to act as our
+#system tray. the very first argument in declaring it, 5x1, tells us that the space
+#it will occupy graphically in our panel is 5 boxes across, and 1 box down. or, in
+#other terms, 5 columns and 1 row of our 25x25 boxes. you can picture it like this:
+#5 times 25 is 125, so the stalonetray will be 125 pixels wide. 1 times 25 is 25, so
+#the stalonetray will be 25 pixels tall. because its the first object we declare, its
+#the first object that appears. Objects are added vertically from the top to panels
+#made with FvwmButtons by default.
+*sysTray: (5x1, Swallow(NoClose,UseOld) \
+	stalonetray 'Exec exec stalonetray --config \
+	"/usr/share/default-config/.stalonetrayrc"', Frame 0)
+#with our second object being a large square analog clock, i want it to ocupy the
+#large remainder of our 5x6 area. therefore our first argument is 5x5. once again,
+#you can think of it in terms of our 25x25 pixel sized boxes. 5x25 is 125, and
+#therefore our clock is 125x125 pixels in size, and a perfect square. in my opinion,
+#this is by far the most elegant, if not slightly convoluted way to build panels.
+*sysTray: (5x5, Swallow XClock 'Exec xclock -analog -chime -render &')
+
+#active window lister using FvwmIconMan
+#colorsets
+# 50 - windows
+# 51 - icons
+# 52 - focused window
+# 53 - selected focused window
+# 54 - selected icon
+# 55 - selected window/icon (fallback)
+Colorset 50 fg #de1b6c, bg #411b59
+Colorset 51 fg #de1b6c, bg #411b59
+Colorset 52 fg #018840, bg #21316c
+Colorset 53 fg #0589c9, bg #115036
+Colorset 54 fg #0589c9, bg #115036
+Colorset 55 fg #0589c9, bg #115036
+#i hope these Style arguments are starting to look familiar, they're the de-facto
+#listing for permanent environment objects like this icon box.
+Style "FvwmIconMan"	NoTitle, !Handles, Sticky, WindowListSkip, \
+	CirculateSkip, StaysOnBottom, FixedPosition, !Iconifiable
+DestroyModuleConfig FvwmIconMan: *
+#means that objects with the "WindowListSkip" style won't be included.
+*FvwmIconMan: UseWinList true
+*FvwmIconMan: Resolution global
+#Tips will show a little baloon with the full window name in it, the needed
+#argument makes it so this only happens for windows whos names are too long to fit
+#in the normal box size
+*FvwmIconMan: Tips needed
+#sorts windows by window id, which is more than sane
+*FvwmIconMan: Sort id
+#this will set the actual size of the icon manager through setting the size of the buttons
+*FvwmIconMan: ButtonGeometry 125x25
+#and this will set the amount of rows and columns of said buttons in the iconman
+*FvwmIconMan: ManagerGeometry 1x0+2+140
+*FvwmIconMan: Colorset 50
+*FvwmIconMan: FocusColorset 52
+*FvwmIconMan: SelectColorset 55
+*FvwmIconMan: FocusAndSelectColorset 53
+*FvwmIconMan: IconColorset 51
+*FvwmIconMan: IconAndSelectColorset 54
+*FvwmIconMan: ReliefThickness 0
+*FvwmIconMan: Format "%t"
+*FvwmIconMan: Font "xft:SF Pro Display:style=Light Italic:size=10:minspace=True:antialias=True"
+#here are a couple of mouse bindings specifically for the iconbox, the first one 
+#takes you straight to the window, and deiconifies it if its iconified, the second
+#one will activate the sendMenu i defined up there for that window
+*FvwmIconMan: Action Mouse 1 A sendcommand WarpToWindow
+*FvwmIconMan: Action Mouse 2 A sendcommand "Menu sendMenu"

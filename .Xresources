@@ -1,0 +1,67 @@
+! X colors.
+*foreground:        #a6a8ab
+*background:        #0C0C0C
+*.foreground:       #a6a8ab
+*.background:       #0C0C0C
+URxvt*foreground:   #a6a8ab
+XTerm*foreground:   #a6a8ab
+UXTerm*foreground:  #a6a8ab
+URxvt*background:   [88]#0C0C0C
+XTerm*background:   #0C0C0C
+UXTerm*background:  #0C0C0C
+URxvt*cursorColor:  #a6a8ab
+XTerm*cursorColor:  #a6a8ab
+UXTerm*cursorColor: #a6a8ab
+URxvt*borderColor:  [88]#0C0C0C
+
+! Fonts
+URxvt*font: 	xft:SF Mono:style=Regular:size=9
+URxvt*boldFont:	xft:SF Mono:style=Heavy:size=9
+
+! Colors 0-15.
+*.color0: #0C0C0C
+*color0:  #0C0C0C
+*.color1: #21316c
+*color1:  #21316c
+*.color2: #411b59
+*color2:  #411b59
+*.color3: #115036
+*color3:  #115036
+*.color4: #0589c9
+*color4:  #0589c9
+*.color5: #de1b6c
+*color5:  #de1b6c
+*.color6: #018840
+*color6:  #018840
+*.color7: #efcf40
+*color7:  #efcf40
+*.color8: #a6a8ab
+*color8:  #a6a8ab
+*.color9: #21316c
+*color9:  #21316c
+*.color10: #411b59
+*color10:  #411b59
+*.color11: #115036
+*color11:  #115036
+*.color12: #0589c9
+*color12:  #0589c9
+*.color13: #de1b6c
+*color13:  #de1b6c
+*.color14: #018840
+*color14:  #018840
+*.color15: #c41616
+*color15:  #c41616
+
+! Black color that will not be affected by bold highlighting.
+*.color66: #0C0C0C
+*color66:  #0C0C0C
+
+! Various urxvt options
+URxvt*scrollBar: false
+
+! Xclock colors.
+XClock*foreground: #efcf40
+XClock*background: #c41616
+
+! Set depth to make transparency work.
+URxvt*depth: 32
