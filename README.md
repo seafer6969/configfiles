@@ -1,4 +1,4 @@
-goals for config files:
+# goals for config files:
 
 ## FVWM
 1. redo colors
