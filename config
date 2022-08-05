@@ -14,12 +14,12 @@
 
 #env variables
 #these are little keywords I can use to reference files and programs
-SetEnv fvwm_wallpapers /home/jack/Pictures/papes/
+SetEnv fvwm_home /home/jack/
+SetEnv fvwm_wallpapers $[fvwm_home]Pictures/papes/
 SetEnv fvwm_term /usr/bin/urxvt
 SetEnv fvwm_video_player /usr/bin/vlc
 SetEnv fvwm_icon /usr/share/icons/GNUstep/
-SetEnv fvwm_home /home/jack/
-SetEnv fvwm_sounds /home/jack/Music/sounds/
+SetEnv fvwm_sounds $[fvwm_home]Music/sounds/
 #where to look for icons and images
 ImagePath $[fvwm_icon]:$[fvwm_icon];.png:$[fvwm_wallpapers]:+
 
@@ -49,25 +49,54 @@ MoveThreshold 3
 #"icon" which is the minimized manifestation of a window.
 Style * SloppyFocus, FPClickRaisesFocused, FPClickDecorRaisesFocused, FPClickIconRaisesFocused
 
-#window styling and appearance
-# 0 - Fallback
-# 1 - Inactive Window
-# 2 - Active Window
-# 3 - Inactive Window Border
-# 4 - Active Window Border
-# 5 - Menu/Inactive Item
-# 6 - Menu/Active Item
-# 7 - Menu/Grayed Item
-# 8 - Menu/Title
-Colorset 0 fg #fefae0, bg #21316c
-Colorset 1 fg #0c0c0c, bg #0589c9
-Colorset 2 fg #fefae0, bg #21316c
-Colorset 3 fg #a6a8ab, bg #0589c9, hi #676767, sh #303030
-Colorset 4 fg #0c0c0c, bg #21316c, hi #474747, sh #101010
-Colorset 5 fg #0c0c0c, bg #018840
-Colorset 6 fg #fefae0, bg #115036
-Colorset 7 fg #a6a8ab, bg #018840
-Colorset 8 fg #018840, bg #115036
+#colorsets
+#THEME: the absolute slate [48]
+#0 Master titlebar (active window, menus, fvwmpager, system tray)
+#1 Slave titlebar (inactive window, other menus, system tray alt)
+#2 Master window border
+#3 Slave window border
+#4 Master item (menus normal item, fvwmiconman icon/iconified, fvwmpager icon/balloon)
+#5 Slave item (menus highlighted item, fvwmiconman highlighted icon/iconified, fvwmpager active icon)
+#6 Slave item II (menus grayed item, fvwmiconman active icon, fvwmpager background)
+###OPTIONAL SETS (provides the ability to have unique colorsets for menus and panels)
+###10 SERIES REFERENCED BY WINDOWOPS AND SENDMENU
+#10 Alternative master item 
+#11 Alternative slave item
+#12 Alternative slave item II
+#13 Alternative titlebar
+###20 SERIES REFERENCED BY WINDOWLIST
+#20 Alternative II master item
+#21 Alternative II slave item
+#22 Alternative II slave item II
+#23 Alternative titlebar II
+#30 Alternative III master item
+#31 Alternative III slave item
+#32 Alternative III slave item II
+#33 Alternative titlebar III
+#SetEnv: "Colorset" containing fg and bg colors for xapps
+Colorset 0	fg gray12, bg gray60
+Colorset 1	fg gray40, bg gray24
+Colorset 2	fg gray60, bg gray12
+Colorset 3	fg gray24, bg gray40
+Colorset 4	fg gray30, bg gray12
+Colorset 5	fg gray12, bg gray30
+Colorset 6	fg gray44, bg gray44
+Colorset 10	fg gray33, bg gray71
+Colorset 11	fg gray71, bg gray33
+Colorset 12	fg gray44, bg gray44
+Colorset 13	fg gray40, bg gray24
+Colorset 20	fg gray33, bg gray71
+Colorset 21	fg gray33, bg gray71
+Colorset 22	fg gray44, bg gray44
+Colorset 23	fg gray40, bg gray24
+Colorset 30	fg gray30, bg gray12
+Colorset 31	fg gray12, bg gray30
+Colorset 32	fg gray44, bg gray44
+Colorset 33	fg gray40, bg gray24
+SetEnv xfg	gray12
+SetEnv xbg	gray60
+
+#window styling
 #setting padding for maximized windows so they dont cover important elements
 EwmhBaseStruts 140 1 1 1
 #ignoring the numlock modifier (its annoying)
@@ -104,10 +133,10 @@ Style "*" BorderWidth 4
 #handles are that pair of lines that appear as the outline of the corner of the
 #window border. i think they're ugly and this argument removes them
 Style "*" !Handles
-Style "*" Colorset 2
+Style "*" Colorset 0
 Style "*" HilightColorset 1
-Style "*" BorderColorset 4
-Style "*" HilightBorderColorset 3
+Style "*" BorderColorset 3
+Style "*" HilightBorderColorset 4
 #disables that weird sunken effect on the borders
 Style "*" FirmBorder, FvwmBorder
 
@@ -193,58 +222,34 @@ Key T A M $[fvwm_term]
 Mouse 1 R A Menu MainMenu
 Mouse 3 R A Menu WindowMenu
 
-#all about menus
-# Main menu colorset
-# 10 - Menu title
-# 11 - Normal item
-# 12 - Highlighted item
-# 13 - Unavailable item
-# 14 - Unavailable item (reverse bg)
-Colorset 10 fg #018840, bg #115036
-Colorset 11 fg #115036, bg #018840
-Colorset 12 fg #018840, bg #115036
-Colorset 13 fg #a6a8ab, bg #018840
-Colorset 14 fg #a6a8ab, bg #115036
-MenuStyle "MainMenu"	MenuColorset 11
-MenuStyle "MainMenu"	ActiveColorset 12
-MenuStyle "MainMenu"	TitleColorset 10
-MenuStyle "MainMenu"	GreyedColorset 13
-#subMenu style colors
-MenuStyle "subMenu"	MenuColorset 12
-MenuStyle "subMenu"	ActiveColorset 11
-MenuStyle "subMenu"	GreyedColorset 14
-# Window ops colorset
-# 20 - Menu title
-# 21 - Normal item
-# 22 - Highlighted item
-# 23 - Unavailable item
-# 24 - Unavailable item (reverse bg)
-Colorset 20 fg #0589c9, bg #21316c
-Colorset 21 fg #21316c, bg #0589c9
-Colorset 22 fg #0589c9, bg #21316c
-Colorset 23 fg #a6a8ab, bg #0589c9
-Colorset 24 fg #a6a8ab, bg #21316c
-MenuStyle "WindowMenu"	MenuColorset 21
-MenuStyle "WindowMenu"	ActiveColorset 22
-MenuStyle "WindowMenu"	TitleColorset 20
-MenuStyle "WindowMenu"	GreyedColorset 23
-#sendMenu colors (inverse of the WindowMenu just for funsies)
-MenuStyle "sendMenu"	MenuColorset 22
-MenuStyle "sendMenu"	ActiveColorset 21
-MenuStyle "sendMenu"	GreyedColorset 24
-#WindowList colors chosen by yuria (the menu from the alt tab function in bindings)
-# 60 - Menu title
-# 61 - Menu item
-# 62 - Selected menu item
-Colorset 60 fg #c41616, bg #efcf40
-Colorset 61 fg #efcf40, bg #c41616
-Colorset 62 fg #c41616, bg #efcf40
-MenuStyle "WindowList"	MenuColorset 61
-MenuStyle "WindowList"	TitleColorset 60
-MenuStyle "WindowList"	ActiveColorset 62
+#menus
+#MainMenu colors
+MenuStyle "MainMenu"	MenuColorset 4
+MenuStyle "MainMenu"	ActiveColorset 5
+MenuStyle "MainMenu"	TitleColorset 0
+MenuStyle "MainMenu"	GreyedColorset 6
+#subMenu colors, inverse of MainMenu
+MenuStyle "subMenu"	MenuColorset 5
+MenuStyle "subMenu"	ActiveColorset 4
+MenuStyle "subMenu"	GreyedColorset 6
+#WindowMenu colors
+MenuStyle "WindowMenu"	MenuColorset 10
+MenuStyle "WindowMenu"	ActiveColorset 11
+MenuStyle "WindowMenu"	TitleColorset 13
+MenuStyle "WindowMenu"	GreyedColorset 12
+#sendMenu colors, inverse of WindowMenu
+MenuStyle "sendMenu"	MenuColorset 11
+MenuStyle "sendMenu"	ActiveColorset 10
+MenuStyle "sendMenu"	GreyedColorset 12
+#WindowList colors (alt-tab window switching menu)
+MenuStyle "WindowList"	MenuColorset 20
+MenuStyle "WindowList"	TitleColorset 23
+MenuStyle "WindowList"	ActiveColorset 21
+MenuStyle "WindowList"	GreyedColorset 22
 #menu parameters... because I wanted each menu to have it's own colorscheme, each menu must
 #also have it's own MenuStyle. Because each menu has it's own MenuStyle, I have to duplicate
-#these commands for each MenuStyle. Fun!
+#these commands for each MenuStyle. Fun! The good news is that this gives me control over 
+#which menus have which styles, which is always nice.
 #menus font and menus title font
 MenuStyle "MainMenu" 	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
 MenuStyle "WindowMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
@@ -254,13 +259,13 @@ MenuStyle "subMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=
 MenuStyle "MainMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
 MenuStyle "WindowMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
 MenuStyle "WindowList"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
-#forces the cursor to hover over the item for a while before it popped up
+#forces the cursor to hover over the item for a while (300ms) before it popped up
 MenuStyle "MainMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
 MenuStyle "WindowMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
 #determines where submenus appear relative to menu items
 MenuStyle "MainMenu"	PopupOffset -5 100, TitleWarpOff
 MenuStyle "WindowMenu"	PopupOffset -5 100, TitleWarpOff
-#changes the appearance of the title bar, item separators, and triangles
+#changes the appearance of the title bar, item separators, and submenu triangles
 MenuStyle "MainMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
 MenuStyle "WindowMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
 MenuStyle "sendMenu"	TitleUnderlines2, SeparatorsLong, BorderWidth 2
@@ -287,6 +292,7 @@ MenuStyle "MainMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "WindowMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "sendMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "WindowList"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "subMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 #primary menu containing all submenus for quick access to common programs
 #as well as the ability to restart or exit fvwm
 DestroyMenu MainMenu
@@ -374,16 +380,7 @@ MenuStyle * ActiveFore, Hilight3DOff
 + "Space 9"		MoveToPage 2 2
 
 #fvwmpager configuration
-#colorsets
-# 30 - Layout colorset
-# 31 - Active window colorset
-# 32 - Window colorset
-# 33 - Hover label colorset
-Colorset 30 fg #0c0c0c, bg #411b59
-Colorset 31 fg #018840, bg #21316c
-Colorset 32 fg #de1b6c, bg #411b59
-Colorset 33 fg #de1b6c, bg #411b59
-#a sane list of default options for an always open tool: removes the ability to
+#a sane list of default options for any always open tool: removes the ability to
 #iconify it, removes it from the window list, removes the ability to move it
 #around, makes it a constant between all workspaces, etc, etc. all of these
 #options can be reviews in the fvwm manual under the section for the "Style"
@@ -392,12 +389,12 @@ Style "FvwmPager"	NoTitle, !Handles, Sticky, WindowListSkip, \
 	CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 DestroyModuleConfig FvwmPager *
 *FvwmPager: Geometry 125x125+2+2
-*FvwmPager: Colorset * 30
-*FvwmPager: HilightColorset * 31
+*FvwmPager: Colorset * 0
+*FvwmPager: HilightColorset * 5
 #"balloons" are little boxes of text that display a windows name when you hover
 #the cursor over it inside the pager
-*FvwmPager: BalloonColorset * 33
-*FvwmPager: WindowColorsets 30 31
+*FvwmPager: BalloonColorset * 4
+*FvwmPager: WindowColorsets 4 5
 *FvwmPager: Font "xft:SF Pro Display:style=Bold:size=10:minspace=True:antialias=True"
 *FvwmPager: Balloons All
 *FvwmPager: BalloonFont "xft:SF Pro Display:style=Light Italic:size=8:minspace=True:antialias=True"
@@ -405,18 +402,13 @@ DestroyModuleConfig FvwmPager *
 *FvwmPager: UseSkipList
 
 #clock and system tray using FvwmButtons
-#colorsets
-# 40 - monocolor
-# 41 - twotone
-Colorset 40 fg #c41616, bg #c41616
-Colorset 41 fg #efcf40, bg #c41616
 #identical list of options to the FvwmPager, as i want it to have all the same
 #properties, being a constant toolbar for the environment
 Style "sysTray"		NoTitle, !Handles, Sticky, WindowListSkip, \
 	CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 DestroyModuleConfig sysTray: *
 *sysTray: Geometry 125x150+2-2
-*sysTray: Colorset 40
+*sysTray: Colorset 0
 #rows and columns are not what you think. all FvwmButtons panels are fractionally
 #divided into rows and columns that you should think of like those on a sheet of
 #graphing paper. as you can see with the geometry line above, the panel here is
@@ -442,22 +434,9 @@ DestroyModuleConfig sysTray: *
 #you can think of it in terms of our 25x25 pixel sized boxes. 5x25 is 125, and
 #therefore our clock is 125x125 pixels in size, and a perfect square. in my opinion,
 #this is by far the most elegant, if not slightly convoluted way to build panels.
-*sysTray: (5x5, Swallow XClock 'Exec xclock -analog -chime -render &')
+*sysTray: (5x5, Swallow XClock 'Exec xclock -bg $[xbg] -fg $[xfg] &')
 
 #active window lister using FvwmIconMan
-#colorsets
-# 50 - windows
-# 51 - icons
-# 52 - focused window
-# 53 - selected focused window
-# 54 - selected icon
-# 55 - selected window/icon (fallback)
-Colorset 50 fg #de1b6c, bg #411b59
-Colorset 51 fg #de1b6c, bg #411b59
-Colorset 52 fg #018840, bg #21316c
-Colorset 53 fg #0589c9, bg #115036
-Colorset 54 fg #0589c9, bg #115036
-Colorset 55 fg #0589c9, bg #115036
 #i hope these Style arguments are starting to look familiar, they're the de-facto
 #listing for permanent environment objects like this icon box.
 Style "FvwmIconMan"	NoTitle, !Handles, Sticky, WindowListSkip, \
@@ -476,12 +455,12 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: ButtonGeometry 125x25
 #and this will set the amount of rows and columns of said buttons in the iconman
 *FvwmIconMan: ManagerGeometry 1x0+2+140
-*FvwmIconMan: Colorset 50
-*FvwmIconMan: FocusColorset 52
-*FvwmIconMan: SelectColorset 55
-*FvwmIconMan: FocusAndSelectColorset 53
-*FvwmIconMan: IconColorset 51
-*FvwmIconMan: IconAndSelectColorset 54
+*FvwmIconMan: Colorset 4
+*FvwmIconMan: FocusColorset 6
+*FvwmIconMan: SelectColorset 5
+*FvwmIconMan: FocusAndSelectColorset 5
+*FvwmIconMan: IconColorset 4
+*FvwmIconMan: IconAndSelectColorset 5
 *FvwmIconMan: ReliefThickness 0
 *FvwmIconMan: Format "%t"
 *FvwmIconMan: Font "xft:SF Pro Display:style=Light Italic:size=10:minspace=True:antialias=True"
