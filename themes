@@ -1,0 +1,140 @@
+#colorsets
+#THEME:
+#0 Master titlebar (active window, menus, fvwmpager, system tray)
+#1 Slave titlebar (inactive window, other menus, system tray alt)
+#2 Master window border
+#3 Slave window border
+#4 Master item (menus normal item, fvwmiconman icon/iconified, fvwmpager icon/balloon)
+#5 Slave item (menus highlighted item, fvwmiconman highlighted icon/iconified, fvwmpager active icon)
+#6 Slave item II (menus grayed item, fvwmiconman active icon, fvwmpager background)
+###OPTIONAL SETS (provides the ability to have unique colorsets for menus and panels)
+###10 SERIES REFERENCED BY WINDOWOPS AND SENDMENU
+#10 Alternative master item 
+#11 Alternative slave item
+#12 Alternative slave item II
+#13 Alternative titlebar
+###20 SERIES REFERENCED BY WINDOWLIST
+#20 Alternative II master item
+#21 Alternative II slave item
+#22 Alternative II slave item II
+#23 Alternative titlebar II
+#30 Alternative III master item
+#31 Alternative III slave item
+#32 Alternative III slave item II
+#33 Alternative titlebar III
+#SetEnv: "Colorset" containing fg and bg colors for xapps
+Colorset 0
+Colorset 1
+Colorset 2
+Colorset 3
+Colorset 4
+Colorset 5
+Colorset 6
+Colorset 10
+Colorset 11
+Colorset 12
+Colorset 13
+Colorset 20
+Colorset 21
+Colorset 22
+Colorset 23
+Colorset 30
+Colorset 31
+Colorset 32
+Colorset 33
+SetEnv xfg	
+SetEnv xbg
+
+#colorsets
+#THEME: the absolute slate [48]
+#0 Master titlebar (active window, menus, fvwmpager, system tray)
+#1 Slave titlebar (inactive window, other menus, system tray alt)
+#2 Master window border
+#3 Slave window border
+#4 Master item (menus normal item, fvwmiconman icon/iconified, fvwmpager icon/balloon)
+#5 Slave item (menus highlighted item, fvwmiconman highlighted icon/iconified, fvwmpager active icon)
+#6 Slave item II (menus grayed item, fvwmiconman active icon, fvwmpager background)
+###OPTIONAL SETS (provides the ability to have unique colorsets for menus and panels)
+###10 SERIES REFERENCED BY WINDOWOPS AND SENDMENU
+#10 Alternative master item 
+#11 Alternative slave item
+#12 Alternative slave item II
+#13 Alternative titlebar
+###20 SERIES REFERENCED BY WINDOWLIST
+#20 Alternative II master item
+#21 Alternative II slave item
+#22 Alternative II slave item II
+#23 Alternative titlebar II
+#30 Alternative III master item
+#31 Alternative III slave item
+#32 Alternative III slave item II
+#33 Alternative titlebar III
+#SetEnv: "Colorset" containing fg and bg colors for xapps
+Colorset 0	fg gray12, bg gray60
+Colorset 1	fg gray40, bg gray24
+Colorset 2	fg gray60, bg gray12
+Colorset 3	fg gray24, bg gray40
+Colorset 4	fg gray30, bg gray12
+Colorset 5	fg gray12, bg gray30
+Colorset 6	fg gray44, bg gray44
+Colorset 10	fg gray33, bg gray71
+Colorset 11	fg gray71, bg gray33
+Colorset 12	fg gray44, bg gray44
+Colorset 13	fg gray40, bg gray24
+Colorset 20	fg gray33, bg gray71
+Colorset 21	fg gray33, bg gray71
+Colorset 22	fg gray44, bg gray44
+Colorset 23	fg gray40, bg gray24
+Colorset 30	fg gray30, bg gray12
+Colorset 31	fg gray12, bg gray30
+Colorset 32	fg gray44, bg gray44
+Colorset 33	fg gray40, bg gray24
+SetEnv xfg	gray12
+SetEnv xbg	gray60
+
+#colorsets
+#THEME: canary [95]
+#0 Master titlebar (active window, menus, fvwmpager, system tray)
+#1 Slave titlebar (inactive window, other menus, system tray alt)
+#2 Master window border
+#3 Slave window border
+#4 Master item (menus normal item, fvwmiconman icon/iconified, fvwmpager icon/balloon)
+#5 Slave item (menus highlighted item, fvwmiconman highlighted icon/iconified, fvwmpager active icon)
+#6 Slave item II (menus grayed item, fvwmiconman active icon, fvwmpager background)
+###OPTIONAL SETS (provides the ability to have unique colorsets for menus and panels)
+###10 SERIES REFERENCED BY WINDOWOPS AND SENDMENU
+#10 Alternative master item 
+#11 Alternative slave item
+#12 Alternative slave item II
+#13 Alternative titlebar
+###20 SERIES REFERENCED BY WINDOWLIST
+#20 Alternative II master item
+#21 Alternative II slave item
+#22 Alternative II slave item II
+#23 Alternative titlebar II
+#30 Alternative III master item
+#31 Alternative III slave item
+#32 Alternative III slave item II
+#33 Alternative titlebar III
+#SetEnv: "Colorset" containing fg and bg colors for xapps
+Colorset 0	fg gold4, bg goldenrod
+Colorset 1	fg gold3, bg goldenrod3
+Colorset 2	fg goldenrod, bg gold4
+Colorset 3	fg gray44, bg gold3
+Colorset 4	fg goldenrod1, bg goldenrod4
+Colorset 5	fg goldenrod4, bg goldenrod1
+Colorset 6	fg gold3, bg goldenrod4
+Colorset 10	fg gold1, bg gold3
+Colorset 11	fg gold3, bg gold1
+Colorset 12	fg gold3, bg goldenrod3
+Colorset 13	fg gray44, bg goldenrod3
+Colorset 20	fg darkgoldenrod, bg darkgoldenrod1
+Colorset 21	fg darkgoldenrod1, bg darkgoldenrod4
+Colorset 22	fg gray44, bg darkgoldenrod2
+Colorset 23	fg darkgoldenrod2, bg gold3
+Colorset 30	fg goldenrod1, bg goldenrod4
+Colorset 31	fg goldenrod4, bg goldenrod1
+Colorset 32	fg gold3, bg goldenrod4
+Colorset 33	fg gold3, bg goldenrod3
+SetEnv xfg	gold4
+SetEnv xbg	goldenrod
