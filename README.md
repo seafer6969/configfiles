@@ -2,11 +2,11 @@
 
 ## FVWM
 1. redo colors [DONE]
-2. add baby terminal
+2. add baby terminal [DONE]
 3. configure more quick launch key commands
 4. add poweroff and reboot functions to rmenu
 5. change the names of various functions [DONE]
-6. make tiling binds using maximize command
+6. make tiling binds using maximize command [DONE] (but with ResizeMove command)
 
 ## .Xresources
 1. fix Xapps colors not showing correctly [DONE]
