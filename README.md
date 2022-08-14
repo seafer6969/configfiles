@@ -7,6 +7,7 @@
 4. add poweroff and reboot functions to rmenu
 5. change the names of various functions [DONE]
 6. make tiling binds using maximize command [DONE] (but with ResizeMove command)
+7. stop baby terminal from constantly respawning when restarting fvwm
 
 ## .Xresources
 1. fix Xapps colors not showing correctly [DONE]
@@ -26,5 +27,5 @@
 5. make aliases for shorter command typing
 
 ## stalonetray
-1. fix unequal icon sizing
-2. fix colors
+1. fix unequal icon sizing [DONE]
+2. fix colors [CURRENTLY WORKING ON]
