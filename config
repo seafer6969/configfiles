@@ -10,7 +10,8 @@
 #the seafer fvwm2rc
 #this fvwm2rc is dedicated to nightslayer420 and ishismemehut
 #who wanted something to rip components out of but couldn't find
-#anything to their liking.
+#anything to their liking. it's over-commented to act as a semi-
+#educational tool for anyone looking to make their own.
 
 #env variables
 #these are little keywords I can use to reference files and programs
@@ -30,7 +31,7 @@ ImagePath $[fvwm_icon]:$[fvwm_icon];.png:$[fvwm_wallpapers]:+
 #the desktopname WILL be visible on the FvwmPager, so give it a tolerable
 #name, you'll be looking at it almost constantly.
 DesktopSize 3x3
-DesktopName 0 OMG!!! FVWM2!!!
+DesktopName 0 FVWM2
 #these parameters control the ability to switch between pages by dragging
 #your cursor to the edge of the screen. I find this feature annoying so my
 #parameters here effectively disable it
@@ -96,9 +97,15 @@ Colorset 33	fg gray40, bg gray24
 SetEnv xfg	gray12
 SetEnv xbg	gray60
 
+#aplication specific styling
+#tinyTerm is a bash script i use to launch a custom terminal with a tiny little font
+#for single command use (spawned in StartFunction)
+Style "tinyTerm" NoTitle, !Handles, Sticky, StaysOnBottom, FixedPosition, FixedSize \
+	!Iconifiable
+
 #window styling
 #setting padding for maximized windows so they dont cover important elements
-EwmhBaseStruts 140 1 1 1
+EwmhBaseStruts 141 2 2 2
 #ignoring the numlock modifier (its annoying)
 IgnoreModifiers L25
 #placing new windows in empty space, or falling back to a cascading fashion of placement
@@ -145,6 +152,7 @@ Style "*" FirmBorder, FvwmBorder
 #>the pager
 #>the icon manager
 #>my system tray
+#>a useful tiny terminal
 #>a startup sound (cute!)
 #>my wallpaper (set with feh instead of fvwm-root)
 #>sourcing my .Xresources
@@ -154,6 +162,7 @@ AddToFunc StartFunction
 + I Module FvwmPager *
 + I Module FvwmIconMan
 + I Module FvwmButtons sysTray
++ I Exec exec tinyTerm
 + I Exec exec cvlc $[fvwm_sounds]startup.ogg
 + I Exec exec ~/.fehbg &
 + I Exec exec xrdb .Xresources
@@ -197,47 +206,53 @@ AddToFunc sqaushBugs
 + I Exec killall xroach
 
 #bindings
-#mouse bindings for window management. very important because this configuration neglects
-#putting buttons on the title bar :^)
-Mouse 1 T A Move
-Mouse 3 T A Iconify
-Mouse 2 T N Delete
-Mouse 2 T S Destroy
-Mouse 4 T A Maximize True
-Mouse 5 T A Maximize False
-Mouse 1 S A Resize
-Mouse 1 F A Resize
-Mouse 1 I A Iconify
+#mouse bindings for window management. I have deliberately neglected to have buttons
+#on the titlebar for aesthetic purposes, and as it turns out this creates a functionality
+#that is actually faster (with practice) than title bar buttons.
+#left clicking on the title bar will let you move the window
+Mouse 	1 	T 	A 	Move
+#right clicking on the title bar will iconify and deiconify the window
+Mouse	3	T	A	Iconify
+#scroll clicking on the title bar will close the window. when holding shift, it will force
+#the window shut instead of sending a close request.
+Mouse	2	T	N	Delete
+Mouse	2	T	S	Destroy
+#scrolling up on the window will maximize it, and scrolling down will unmaximize it.
+Mouse	4	T	A	Maximize True
+Mouse	5	T	A	Maximize False
+#left clicking on the border of a window will resize it.
+Mouse	1	SF	A	Resize
+
 #key binding for creating the "alt-tab" window switching feature with a list (we
 #will theme the list later)
-Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+Key	Tab	A	M	WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
 #bindings for my screenshot functions
-Key Print A N rootScreenshot
-Key Print A S windowScreenshot
-Key Print A C dragScreenshot
+Key	Print	A	N	rootScreenshot
+Key	Print	A	S	windowScreenshot
+Key	Print	A	C	dragScreenshot
 #keybindings to open various useful programs on the fly
 #terminal
-Key T A M $[fvwm_term]
+Key	T	A 	M	$[fvwm_term]
 #open context menus for the root window
-Mouse 1 R A Menu MainMenu
-Mouse 3 R A Menu WindowMenu
+Mouse	1	R	A	Menu rootMenu
+Mouse	3	R	A	Menu winOpMenu
 
 #menus
-#MainMenu colors
-MenuStyle "MainMenu"	MenuColorset 4
-MenuStyle "MainMenu"	ActiveColorset 5
-MenuStyle "MainMenu"	TitleColorset 0
-MenuStyle "MainMenu"	GreyedColorset 6
-#subMenu colors, inverse of MainMenu
+#rootMenu colors
+MenuStyle "rootMenu"	MenuColorset 4
+MenuStyle "rootMenu"	ActiveColorset 5
+MenuStyle "rootMenu"	TitleColorset 0
+MenuStyle "rootMenu"	GreyedColorset 6
+#subMenu colors, inverse of rootMenu
 MenuStyle "subMenu"	MenuColorset 5
 MenuStyle "subMenu"	ActiveColorset 4
 MenuStyle "subMenu"	GreyedColorset 6
-#WindowMenu colors
-MenuStyle "WindowMenu"	MenuColorset 10
-MenuStyle "WindowMenu"	ActiveColorset 11
-MenuStyle "WindowMenu"	TitleColorset 13
-MenuStyle "WindowMenu"	GreyedColorset 12
-#sendMenu colors, inverse of WindowMenu
+#winOpMenu colors
+MenuStyle "winOpMenu"	MenuColorset 10
+MenuStyle "winOpMenu"	ActiveColorset 11
+MenuStyle "winOpMenu"	TitleColorset 13
+MenuStyle "winOpMenu"	GreyedColorset 12
+#sendMenu colors, inverse of winOpMenu
 MenuStyle "sendMenu"	MenuColorset 11
 MenuStyle "sendMenu"	ActiveColorset 10
 MenuStyle "sendMenu"	GreyedColorset 12
@@ -251,53 +266,53 @@ MenuStyle "WindowList"	GreyedColorset 22
 #these commands for each MenuStyle. Fun! The good news is that this gives me control over 
 #which menus have which styles, which is always nice.
 #menus font and menus title font
-MenuStyle "MainMenu" 	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
-MenuStyle "WindowMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "rootMenu" 	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
+MenuStyle "winOpMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
 MenuStyle "sendMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
 MenuStyle "WindowList"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
 MenuStyle "subMenu"	Font "xft:SF Pro Display:style=Light Italic:size=9:minspace=True:antialias=True"
-MenuStyle "MainMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
-MenuStyle "WindowMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
+MenuStyle "rootMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
+MenuStyle "winOpMenu"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
 MenuStyle "WindowList"	TitleFont "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
 #forces the cursor to hover over the item for a while (300ms) before it popped up
-MenuStyle "MainMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
-MenuStyle "WindowMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle "rootMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle "winOpMenu"	PopupDelayed, PopupDelay 300, PopdownImmediately
 #determines where submenus appear relative to menu items
-MenuStyle "MainMenu"	PopupOffset -5 100, TitleWarpOff
-MenuStyle "WindowMenu"	PopupOffset -5 100, TitleWarpOff
+MenuStyle "rootMenu"	PopupOffset -5 100, TitleWarpOff
+MenuStyle "winOpMenu"	PopupOffset -5 100, TitleWarpOff
 #changes the appearance of the title bar, item separators, and submenu triangles
-MenuStyle "MainMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
-MenuStyle "WindowMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
-MenuStyle "sendMenu"	TitleUnderlines2, SeparatorsLong, BorderWidth 2
+MenuStyle "rootMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
+MenuStyle "winOpMenu"	TitleUnderlines2, SeparatorsLong, TrianglesRelief, BorderWidth 2
+MenuStyle "sendMenu"	SeparatorsLong, BorderWidth 2
 MenuStyle "WindowList"	TitleUnderlines2, SeparatorsLong, BorderWidth 2
 MenuStyle "subMenu"	SeparatorsLong, BorderWidth 2
 #hold menus open when submenus open to prevent navigating to 4 submenus only to have the whole
 #structure close on you because you moved your mouse 2 pixels too far over
-MenuStyle "MainMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
-MenuStyle "WindowMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
+MenuStyle "rootMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
+MenuStyle "winOpMenu"	PopupAsSubmenu, HoldSubmenus, SubmenusRight
 #determines the structure of each part of a menu item from the title, icon, etc.
 #my structure basically removes everything except for text.
-MenuStyle "MainMenu"	ItemFormat "%|%l%p%>%|"
-MenuStyle "WindowMenu"	ItemFormat "%|%l%p%>%|"
+MenuStyle "rootMenu"	ItemFormat "%|%l%p%>%|"
+MenuStyle "winOpMenu"	ItemFormat "%|%l%p%>%|"
 MenuStyle "sendMenu"	ItemFormat "%|%l%p%>%|"
 MenuStyle "WindowList"	ItemFormat "%|%l%p%>%|"
 MenuStyle "subMenu"	ItemFormat "%|%l%p%>%|"
 #sets the width between items and titles in the menus
-MenuStyle "MainMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
-MenuStyle "WindowMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+MenuStyle "rootMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
+MenuStyle "winOpMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
 MenuStyle "sendMenu"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
 MenuStyle "WindowList"	VerticalItemSpacing 1 1, VerticleTitleSpacing 2 2
 #makes the selected menu item and menu title have hilighting instead of 3d impression
-MenuStyle "MainMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
-MenuStyle "WindowMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "rootMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
+MenuStyle "winOpMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "sendMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "WindowList"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 MenuStyle "subMenu"	ActiveFore, HilightBack, HilightTitleBack, Hilight3DOff
 #primary menu containing all submenus for quick access to common programs
 #as well as the ability to restart or exit fvwm
-DestroyMenu MainMenu
-AddToMenu MainMenu "FVWM2" Title
-ChangeMenuStyle MainMenu MainMenu
+DestroyMenu rootMenu
+AddToMenu rootMenu "FVWM2" Title
+ChangeMenuStyle rootMenu rootMenu
 + "Utilities"	Popup utilMenu
 + "Internet"	Popup webMenu
 + "Media"	Popup mediaMenu
@@ -320,6 +335,7 @@ ChangeMenuStyle subMenu mediaMenu
 + "Video Player"		Exec exec $[fvwm_video_player]
 + "Open Broadcaster Studio"	Exec exec obs
 + "The G.I.M.P"			Exec exec gimp
++ "Shotcut"			Exec exec shotcut
 + "Volume Mixer"		Exec exec pavucontrol
 #submenu containing the holy trinity of basic system utilities
 DestroyMenu utilMenu
@@ -332,16 +348,15 @@ ChangeMenuStyle subMenu utilMenu
 DestroyMenu gamesMenu
 AddToMenu gamesMenu
 ChangeMenuStyle subMenu gamesMenu
-+ "Chess"		Exec exec gnuchess &
 + "Steam"		Exec exec steam
 + "Lutris"		Exec exec lutris
 + "Xonotic"	 	Exec exec xonotic-sdl
 + "Minecraft"		Exec exec minecraft-launcher &
 #window options menu with an exhaustive list of options, similar to the
 #one found in the default configuration
-DestroyMenu WindowMenu
-AddToMenu WindowMenu "Window Ops" Title
-ChangeMenuStyle WindowMenu WindowMenu
+DestroyMenu winOpMenu
+AddToMenu winOpMenu "Window Ops" Title
+ChangeMenuStyle winOpMenu winOpMenu
 + "Move"		Move
 + "Resize"		Resize
 + "/De/Iconify"		Iconify
@@ -363,13 +378,11 @@ ChangeMenuStyle WindowMenu WindowMenu
 + ""			Nop
 + "Identify"		Module FvwmIdent
 #submenu for the window operations menu, gives the ability to move windows
-#to certain "pages"
+#to certain "pages" (workspaces)
 DestroyMenu sendMenu
 AddToMenu sendMenu
 ChangeMenuStyle sendMenu sendMenu
 + "Space 1"		MoveToPage 0 0
-MenuStyle * ActiveFore, Hilight3DOff
-
 + "Space 2"		MoveToPage 1 0
 + "Space 3"		MoveToPage 2 0
 + "Space 4"		MoveToPage 0 1
@@ -395,7 +408,7 @@ DestroyModuleConfig FvwmPager *
 #the cursor over it inside the pager
 *FvwmPager: BalloonColorset * 4
 *FvwmPager: WindowColorsets 4 5
-*FvwmPager: Font "xft:SF Pro Display:style=Bold:size=10:minspace=True:antialias=True"
+*FvwmPager: Font "xft:SF Pro Display:style=Semibold Italic:size=10:minspace=True:antialias=True"
 *FvwmPager: Balloons All
 *FvwmPager: BalloonFont "xft:SF Pro Display:style=Light Italic:size=8:minspace=True:antialias=True"
 *FvwmPager: MiniIcons
@@ -438,7 +451,8 @@ DestroyModuleConfig sysTray: *
 
 #active window lister using FvwmIconMan
 #i hope these Style arguments are starting to look familiar, they're the de-facto
-#listing for permanent environment objects like this icon box.
+#listing for permanent environment objects. It doesn't have FixedSize because the
+#manager actually grows and shrinks depending on the amount of icons it's managing.
 Style "FvwmIconMan"	NoTitle, !Handles, Sticky, WindowListSkip, \
 	CirculateSkip, StaysOnBottom, FixedPosition, !Iconifiable
 DestroyModuleConfig FvwmIconMan: *
@@ -454,7 +468,7 @@ DestroyModuleConfig FvwmIconMan: *
 #this will set the actual size of the icon manager through setting the size of the buttons
 *FvwmIconMan: ButtonGeometry 125x25
 #and this will set the amount of rows and columns of said buttons in the iconman
-*FvwmIconMan: ManagerGeometry 1x0+2+140
+*FvwmIconMan: ManagerGeometry 1x0+2+138
 *FvwmIconMan: Colorset 4
 *FvwmIconMan: FocusColorset 6
 *FvwmIconMan: SelectColorset 5
