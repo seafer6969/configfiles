@@ -6,9 +6,8 @@
 #  ) (    \  /  \    //    \
 # (___)    \/    \/\/(_/\/\_)
 #
-#
 #the seafer fvwm2rc
-#this fvwm2rc is dedicated to nightslayer420 and ishismemehut
+#this fvwm2rc is dedicated to nightslayer420 and swawesome95
 #who wanted something to rip components out of but couldn't find
 #anything to their liking. it's over-commented to act as a semi-
 #educational tool for anyone looking to make their own.
@@ -218,10 +217,24 @@ Mouse	3	T	A	Iconify
 Mouse	2	T	N	Delete
 Mouse	2	T	S	Destroy
 #scrolling up on the window will maximize it, and scrolling down will unmaximize it.
-Mouse	4	T	A	Maximize True
-Mouse	5	T	A	Maximize False
+Mouse	4	T	N	Maximize True
+Mouse	5	T	N	Maximize False
 #left clicking on the border of a window will resize it.
 Mouse	1	SF	A	Resize
+#THE FOLLOWING BINDINGS WILL ONLY WORK ON A 1080P MONITOR AND ARE COMPLIANT WITH MY
+#ENHANCED WM HINTS BASE WORKING AREA!!!
+#shift+upscroll will tile the window to the left 2/3rds of the screen, downscroll for
+#the right 2/3rds of the screen
+Mouse	4	T	S	ResizeMove 1155p 1048p 0 0
+Mouse	5	T	S	ResizeMove 1155p 1048p -0 0
+#ctrl+upscroll will tile the window to the left 1/3rd of the screen, downscroll for
+#the right 1/3rd of the screen
+Mouse	4	T	C	ResizeMove 601p 1048p 0 0
+Mouse	5	T	C	ResizeMove 601p 1048p -0 0
+#alt+upscroll will tile the window to the left half of the screen, downscroll for
+#the right half of the screen
+Mouse	4	T	M	Resizemove 878p 1048p 0 0
+Mouse	5	T	M	Resizemove 878p 1048p -0 0
 
 #key binding for creating the "alt-tab" window switching feature with a list (we
 #will theme the list later)
@@ -447,7 +460,7 @@ DestroyModuleConfig sysTray: *
 #you can think of it in terms of our 25x25 pixel sized boxes. 5x25 is 125, and
 #therefore our clock is 125x125 pixels in size, and a perfect square. in my opinion,
 #this is by far the most elegant, if not slightly convoluted way to build panels.
-*sysTray: (5x5, Swallow XClock 'Exec xclock -bg $[xbg] -fg $[xfg] &')
+*sysTray: (5x5, Swallow XClock 'Exec xclock -fg $[xfg] -bg $[xbg] &')
 
 #active window lister using FvwmIconMan
 #i hope these Style arguments are starting to look familiar, they're the de-facto
