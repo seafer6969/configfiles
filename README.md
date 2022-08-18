@@ -11,6 +11,7 @@
 8. reconfigure pages [DONE]
 9. refine colorschemes
 10. make at least 6 more colorschemes
+11. use FvwmEvents to play cute little sound effects when things happen
 
 ## .Xresources
 1. fix Xapps colors not showing correctly [DONE]
