@@ -8,7 +8,7 @@
 5. change the names of various functions [DONE]
 6. make tiling binds using maximize command [DONE] (but with ResizeMove command)
 7. stop baby terminal from constantly respawning when restarting fvwm
-8. reconfigure pages
+8. reconfigure pages [DONE]
 9. refine colorschemes
 10. make at least 6 more colorschemes
 
@@ -31,5 +31,5 @@
 
 ## stalonetray
 1. fix unequal icon sizing [DONE]
-2. fix colors
-3. IT BROKE I BROKE IT BRING IT BACK AAAAA
+2. fix colors [DONE]
+3. IT BROKE I BROKE IT BRING IT BACK AAAAA [DONE]
