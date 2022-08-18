@@ -3,18 +3,18 @@
 ## FVWM
 1. redo colors [DONE]
 2. add baby terminal [DONE]
-3. configure more quick launch key commands
-4. add poweroff and reboot functions to rmenu
+3. configure more quick launch key commands [DONE]
+4. add poweroff and reboot functions to rmenu [DONE]
 5. change the names of various functions [DONE]
 6. make tiling binds using maximize command [DONE] (but with ResizeMove command)
-7. stop baby terminal from constantly respawning when restarting fvwm
+7. stop baby terminal from constantly respawning when restarting fvwm [DONE]
 8. reconfigure pages [DONE]
 9. refine colorschemes
 10. make at least 6 more colorschemes
 
 ## .Xresources
 1. fix Xapps colors not showing correctly [DONE]
-2. make my font look prettier (maybe hinting)
+2. make my font look prettier (maybe hinting) [DONE]
 3. redo colors
 
 ## picom
