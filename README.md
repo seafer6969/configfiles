@@ -8,6 +8,9 @@
 5. change the names of various functions [DONE]
 6. make tiling binds using maximize command [DONE] (but with ResizeMove command)
 7. stop baby terminal from constantly respawning when restarting fvwm
+8. reconfigure pages
+9. refine colorschemes
+10. make at least 6 more colorschemes
 
 ## .Xresources
 1. fix Xapps colors not showing correctly [DONE]
@@ -16,7 +19,7 @@
 
 ## picom
 1. remove inactive window transparency [DONE]
-2. create window exceptions for vsync
+2. create window exceptions for vsync [DEEMED UNNECCESARY]
 3. learn to make some cool looking effects
 
 ## bashrc
@@ -28,4 +31,5 @@
 
 ## stalonetray
 1. fix unequal icon sizing [DONE]
-2. fix colors [CURRENTLY WORKING ON]
+2. fix colors
+3. IT BROKE I BROKE IT BRING IT BACK AAAAA
